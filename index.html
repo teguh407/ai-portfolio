@@ -1,796 +1,500 @@
-<!DOCTYPE html>
-<html lang="en" data-theme="dark">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teguh Sanjaya — AI Agent Developer & Automation Specialist</title>
-    <meta name="description" content="AI Agent Developer specializing in LLM orchestration, workflow automation, and intelligent bot systems. Available for freelance on Upwork.">
-    
-    <!-- Fonts: Space Grotesk (heading) + DM Sans (body) — Tech Startup pairing -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- GSAP for scroll animations -->
-    
-    <style>
-        /* ═══════════════════════════════════════════════
-           DESIGN SYSTEM — Dark Mode AI Portfolio
-           Primary: #6366F1 (Indigo)
-           Accent: #059669 (Emerald)
-           ═══════════════════════════════════════════════ */
-        :root {
-            --bg: #0B0F1A;
-            --bg-card: #111827;
-            --bg-card-hover: #1A2332;
-            --surface: #1E293B;
-            --border: #1E293B;
-            --border-hover: #334155;
-            --text: #F8FAFC;
-            --text-muted: #94A3B8;
-            --text-dim: #64748B;
-            --primary: #6366F1;
-            --primary-light: #818CF8;
-            --primary-glow: rgba(99, 102, 241, 0.15);
-            --accent: #059669;
-            --accent-light: #10B981;
-            --accent-glow: rgba(5, 150, 105, 0.15);
-            --gradient: linear-gradient(135deg, #6366F1, #8B5CF6, #A78BFA);
-            --gradient-accent: linear-gradient(135deg, #059669, #10B981);
-            --font-heading: 'Space Grotesk', sans-serif;
-            --font-body: 'DM Sans', sans-serif;
-            --radius: 16px;
-            --radius-sm: 10px;
-            --shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
-            --shadow-glow: 0 0 40px rgba(99, 102, 241, 0.1);
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        html { scroll-behavior: smooth; }
-        
-        body {
-            font-family: var(--font-body);
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        /* ═══ UTILITY ═══ */
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
-        .gradient-text {
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 14px;
-            border-radius: 100px;
-            font-size: 13px;
-            font-weight: 500;
-            border: 1px solid var(--border);
-            background: var(--surface);
-            color: var(--text-muted);
-            transition: all 0.3s ease;
-        }
-        .badge:hover { border-color: var(--primary); color: var(--primary-light); }
-        .badge-dot {
-            width: 6px; height: 6px;
-            border-radius: 50%;
-            background: var(--accent);
-            animation: pulse 2s ease-in-out infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(0.8); }
-        }
-
-        /* ═══ NAV ═══ */
-        nav {
-            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-            padding: 16px 0;
-            background: rgba(11, 15, 26, 0.8);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(30, 41, 59, 0.5);
-            transition: all 0.3s ease;
-        }
-        nav .container {
-            display: flex; align-items: center; justify-content: space-between;
-        }
-        .nav-logo {
-            font-family: var(--font-heading);
-            font-size: 20px; font-weight: 700;
-            color: var(--text);
-            text-decoration: none;
-        }
-        .nav-logo span { color: var(--primary); }
-        .nav-links { display: flex; gap: 32px; align-items: center; }
-        .nav-links a {
-            font-size: 14px; font-weight: 500;
-            color: var(--text-muted);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        .nav-links a:hover { color: var(--text); }
-        .nav-cta {
-            padding: 10px 24px !important;
-            background: var(--primary) !important;
-            color: white !important;
-            border-radius: 100px !important;
-            font-weight: 600 !important;
-            transition: all 0.3s ease !important;
-        }
-        .nav-cta:hover { background: var(--primary-light) !important; transform: translateY(-1px); }
-
-        /* ═══ HERO ═══ */
-        .hero {
-            min-height: 100vh;
-            display: flex; align-items: center;
-            padding: 120px 0 80px;
-            position: relative;
-            overflow: hidden;
-        }
-        .hero::before {
-            content: '';
-            position: absolute; top: -50%; left: -50%;
-            width: 200%; height: 200%;
-            background: radial-gradient(circle at 30% 40%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
-                        radial-gradient(circle at 70% 60%, rgba(5, 150, 105, 0.05) 0%, transparent 50%);
-            animation: heroGlow 15s ease-in-out infinite alternate;
-        }
-        @keyframes heroGlow {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            100% { transform: translate(-5%, 5%) rotate(3deg); }
-        }
-        .hero-content { position: relative; z-index: 2; }
-        .hero-badge {
-            display: inline-flex; align-items: center; gap: 8px;
-            padding: 8px 18px;
-            background: var(--primary-glow);
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            border-radius: 100px;
-            font-size: 13px; font-weight: 500;
-            color: var(--primary-light);
-            margin-bottom: 24px;
-        }
-        .hero h1 {
-            font-family: var(--font-heading);
-            font-size: clamp(42px, 6vw, 72px);
-            font-weight: 700;
-            line-height: 1.1;
-            margin-bottom: 20px;
-        }
-        .hero-sub {
-            font-size: 18px;
-            color: var(--text-muted);
-            max-width: 560px;
-            margin-bottom: 36px;
-        }
-        .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
-        .btn {
-            display: inline-flex; align-items: center; gap: 8px;
-            padding: 14px 32px;
-            border-radius: 100px;
-            font-family: var(--font-body);
-            font-size: 15px; font-weight: 600;
-            text-decoration: none;
-            cursor: pointer; border: none;
-            transition: all 0.3s ease;
-        }
-        .btn-primary {
-            background: var(--gradient);
-            color: white;
-            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
-        }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(99, 102, 241, 0.4); }
-        .btn-outline {
-            background: transparent;
-            color: var(--text);
-            border: 1px solid var(--border-hover);
-        }
-        .btn-outline:hover { border-color: var(--primary); color: var(--primary-light); }
-
-        /* ═══ STATS ═══ */
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 24px;
-            padding: 60px 0;
-        }
-        .stat-card {
-            text-align: center;
-            padding: 28px 20px;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            transition: all 0.3s ease;
-        }
-        .stat-card:hover { border-color: var(--primary); transform: translateY(-4px); box-shadow: var(--shadow-glow); }
-        .stat-num {
-            font-family: var(--font-heading);
-            font-size: 36px; font-weight: 700;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .stat-label { font-size: 14px; color: var(--text-muted); margin-top: 4px; }
-
-        /* ═══ SECTION HEADER ═══ */
-        .section { padding: 80px 0; }
-        .section-header { margin-bottom: 48px; }
-        .section-tag {
-            font-size: 13px; font-weight: 600;
-            text-transform: uppercase; letter-spacing: 2px;
-            color: var(--primary-light);
-            margin-bottom: 12px;
-        }
-        .section-title {
-            font-family: var(--font-heading);
-            font-size: clamp(28px, 4vw, 40px);
-            font-weight: 700;
-        }
-        .section-desc {
-            font-size: 16px;
-            color: var(--text-muted);
-            max-width: 600px;
-            margin-top: 12px;
-        }
-
-        /* ═══ PROJECT GRID ═══ */
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-            gap: 24px;
-        }
-        .project-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            overflow: hidden;
-            transition: all 0.4s ease;
-            position: relative;
-        }
-        .project-card:hover {
-            border-color: var(--primary);
-            transform: translateY(-6px);
-            box-shadow: var(--shadow-glow);
-        }
-        .project-thumb {
-            position: relative;
-            height: 220px;
-            overflow: hidden;
-        }
-        .project-thumb-bg {
-            width: 100%; height: 100%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 64px;
-            position: relative;
-        }
-        .project-thumb-bg::after {
-            content: '';
-            position: absolute; inset: 0;
-            background: linear-gradient(to bottom, transparent 60%, var(--bg-card));
-        }
-        .project-overlay {
-            position: absolute; inset: 0;
-            background: rgba(11, 15, 26, 0.85);
-            display: flex; align-items: center; justify-content: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        .project-card:hover .project-overlay { opacity: 1; }
-        .project-overlay-btn {
-            padding: 10px 24px;
-            background: var(--primary);
-            color: white;
-            border-radius: 100px;
-            font-size: 14px; font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-        .project-overlay-btn:hover { background: var(--primary-light); }
-        .project-info { padding: 24px; }
-        .project-type {
-            font-size: 12px; font-weight: 600;
-            text-transform: uppercase; letter-spacing: 1.5px;
-            color: var(--accent-light);
-            margin-bottom: 8px;
-        }
-        .project-title {
-            font-family: var(--font-heading);
-            font-size: 20px; font-weight: 600;
-            margin-bottom: 8px;
-        }
-        .project-desc {
-            font-size: 14px;
-            color: var(--text-muted);
-            margin-bottom: 16px;
-            line-height: 1.5;
-        }
-        .project-stack { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
-        .project-stack .badge { font-size: 12px; padding: 4px 10px; }
-        .project-metrics {
-            display: flex; gap: 20px;
-            padding-top: 16px;
-            border-top: 1px solid var(--border);
-        }
-        .metric { font-size: 13px; color: var(--text-dim); }
-        .metric strong { color: var(--accent-light); font-weight: 600; }
-
-        /* ═══ SKILLS ═══ */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 20px;
-        }
-        .skill-card {
-            padding: 28px;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            transition: all 0.3s ease;
-        }
-        .skill-card:hover { border-color: var(--primary); }
-        .skill-icon {
-            width: 48px; height: 48px;
-            display: flex; align-items: center; justify-content: center;
-            background: var(--primary-glow);
-            border-radius: 12px;
-            font-size: 24px;
-            margin-bottom: 16px;
-        }
-        .skill-card h3 {
-            font-family: var(--font-heading);
-            font-size: 16px; font-weight: 600;
-            margin-bottom: 8px;
-        }
-        .skill-card p { font-size: 14px; color: var(--text-muted); }
-
-        /* ═══ CTA ═══ */
-        .cta-section {
-            padding: 80px 0;
-            text-align: center;
-        }
-        .cta-box {
-            padding: 64px 40px;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            position: relative;
-            overflow: hidden;
-        }
-        .cta-box::before {
-            content: '';
-            position: absolute; inset: 0;
-            background: radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.1) 0%, transparent 60%);
-        }
-        .cta-box h2 {
-            font-family: var(--font-heading);
-            font-size: clamp(24px, 3.5vw, 36px);
-            font-weight: 700;
-            margin-bottom: 16px;
-            position: relative;
-        }
-        .cta-box p {
-            font-size: 16px;
-            color: var(--text-muted);
-            max-width: 500px;
-            margin: 0 auto 32px;
-            position: relative;
-        }
-        .cta-actions { display: flex; gap: 16px; justify-content: center; position: relative; }
-
-        /* ═══ FOOTER ═══ */
-        footer {
-            padding: 40px 0;
-            border-top: 1px solid var(--border);
-        }
-        footer .container {
-            display: flex; align-items: center; justify-content: space-between;
-            flex-wrap: wrap; gap: 16px;
-        }
-        .footer-text { font-size: 14px; color: var(--text-dim); }
-        .footer-links { display: flex; gap: 24px; }
-        .footer-links a {
-            font-size: 14px;
-            color: var(--text-muted);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        .footer-links a:hover { color: var(--primary-light); }
-
-        /* ═══ RESPONSIVE ═══ */
-        @media (max-width: 768px) {
-            .nav-links { display: none; }
-            .stats { grid-template-columns: repeat(2, 1fr); }
-            .projects-grid { grid-template-columns: 1fr; }
-            .hero h1 { font-size: 36px; }
-            .cta-box { padding: 40px 24px; }
-        }
-
-        /* ═══ ANIMATIONS ═══ */
-        .reveal, .stagger, .hero-badge, .hero h1, .hero-sub, .hero-actions {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Project thumbnail themes */
-        .thumb-ai { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); }
-        .thumb-auto { background: linear-gradient(135deg, #0d1117 0%, #161b22 50%, #21262d 100%); }
-        .thumb-bot { background: linear-gradient(135deg, #1a1a2e 0%, #0a3d62 50%, #1e3799 100%); }
-        .thumb-data { background: linear-gradient(135deg, #0d1117 0%, #1a1a2e 50%, #2d1b69 100%); }
-        .thumb-multi { background: linear-gradient(135deg, #1a1a2e 0%, #1b2838 50%, #2a475e 100%); }
-
-        .float-icon {
-            font-size: 48px;
-            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
-            animation: float 3s ease-in-out infinite;
-        }
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
-        }
-    </style>
-</head>
-<body>
-
-<!-- ═══ NAV ═══ -->
-<nav>
-    <div class="container">
-        <a href="#" class="nav-logo">teguh<span>.dev</span></a>
-        <div class="nav-links">
-            <a href="#projects">Projects</a>
-            <a href="#skills">Skills</a>
-            <a href="#about">About</a>
-            <a href="https://www.upwork.com/freelancers/~teguh407" target="_blank" class="nav-cta">Hire Me ↗</a>
-        </div>
-    </div>
-</nav>
-
-<!-- ═══ HERO ═══ -->
-<section class="hero">
-    <div class="container">
-        <div class="hero-content">
-            <div class="hero-badge">
-                <span class="badge-dot"></span>
-                Available for freelance
-            </div>
-            <h1>
-                I build<br>
-                <span class="gradient-text">AI Agents &<br>Automations</span>
-            </h1>
-            <p class="hero-sub">
-                AI Agent Developer specializing in LLM orchestration, workflow automation, 
-                and intelligent bot systems. I turn complex AI into simple, working products.
-            </p>
-            <div class="hero-actions">
-                <a href="#projects" class="btn btn-primary">View Projects ↓</a>
-                <a href="https://www.upwork.com/freelancers/~teguh407" target="_blank" class="btn btn-outline">Upwork Profile ↗</a>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ═══ STATS ═══ -->
-<section class="container">
-    <div class="stats">
-        <div class="stat-card stagger">
-            <div class="stat-num">5+</div>
-            <div class="stat-label">AI Projects Shipped</div>
-        </div>
-        <div class="stat-card stagger">
-            <div class="stat-num">50+</div>
-            <div class="stat-label">Fiverr Reviews</div>
-        </div>
-        <div class="stat-card stagger">
-            <div class="stat-num">3+</div>
-            <div class="stat-label">Years Experience</div>
-        </div>
-        <div class="stat-card stagger">
-            <div class="stat-num">18+</div>
-            <div class="stat-label">Countries Served</div>
-        </div>
-    </div>
-</section>
-
-<!-- ═══ PROJECTS ═══ -->
-<section id="projects" class="section">
-    <div class="container">
-        <div class="section-header reveal">
-            <div class="section-tag">Featured Work</div>
-            <h2 class="section-title">AI Agent Projects</h2>
-            <p class="section-desc">Real systems I've built — from intelligent bots to multi-agent orchestration pipelines.</p>
-        </div>
-
-        <div class="projects-grid">
-            <!-- Project 1 -->
-            <div class="project-card stagger">
-                <div class="project-thumb">
-                    <div class="project-thumb-bg thumb-ai">
-                        <span class="float-icon">🤖</span>
-                    </div>
-                    <div class="project-overlay">
-                        <a href="#" class="project-overlay-btn">View Case Study →</a>
-                    </div>
-                </div>
-                <div class="project-info">
-                    <div class="project-type">AI Chatbot</div>
-                    <h3 class="project-title">AI Customer Service Agent</h3>
-                    <p class="project-desc">Telegram bot with GPT-4 + RAG pipeline. Handles 500+ daily queries with context-aware responses from custom knowledge base.</p>
-                    <div class="project-stack">
-                        <span class="badge">Python</span>
-                        <span class="badge">OpenAI API</span>
-                        <span class="badge">LangChain</span>
-                        <span class="badge">Vector DB</span>
-                    </div>
-                    <div class="project-metrics">
-                        <span class="metric"><strong>500+</strong> daily queries</span>
-                        <span class="metric"><strong>94%</strong> accuracy</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Project 2 -->
-            <div class="project-card stagger">
-                <div class="project-thumb">
-                    <div class="project-thumb-bg thumb-multi">
-                        <span class="float-icon">🔗</span>
-                    </div>
-                    <div class="project-overlay">
-                        <a href="#" class="project-overlay-btn">View Case Study →</a>
-                    </div>
-                </div>
-                <div class="project-info">
-                    <div class="project-type">Multi-Agent System</div>
-                    <h3 class="project-title">Research & Analysis Pipeline</h3>
-                    <p class="project-desc">Orchestrator agent that dispatches specialized workers — scraper, analyzer, and reporter — to produce market intelligence reports automatically.</p>
-                    <div class="project-stack">
-                        <span class="badge">Python</span>
-                        <span class="badge">Multi-Agent</span>
-                        <span class="badge">LLM Orchestration</span>
-                        <span class="badge">API Integration</span>
-                    </div>
-                    <div class="project-metrics">
-                        <span class="metric"><strong>3</strong> agent types</span>
-                        <span class="metric"><strong>10min</strong> per report</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Project 3 -->
-            <div class="project-card stagger">
-                <div class="project-thumb">
-                    <div class="project-thumb-bg thumb-auto">
-                        <span class="float-icon">⚡</span>
-                    </div>
-                    <div class="project-overlay">
-                        <a href="#" class="project-overlay-btn">View Case Study →</a>
-                    </div>
-                </div>
-                <div class="project-info">
-                    <div class="project-type">Workflow Automation</div>
-                    <h3 class="project-title">Lead Capture Automation</h3>
-                    <p class="project-desc">n8n workflow: webhook → AI qualification → CRM insert → personalized email sequence. Zero manual intervention from lead to nurture.</p>
-                    <div class="project-stack">
-                        <span class="badge">n8n</span>
-                        <span class="badge">Webhook</span>
-                        <span class="badge">GPT-4</span>
-                        <span class="badge">Google Sheets</span>
-                    </div>
-                    <div class="project-metrics">
-                        <span class="metric"><strong>200+</strong> leads/mo</span>
-                        <span class="metric"><strong>0</strong> manual steps</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Project 4 -->
-            <div class="project-card stagger">
-                <div class="project-thumb">
-                    <div class="project-thumb-bg thumb-bot">
-                        <span class="float-icon">📱</span>
-                    </div>
-                    <div class="project-overlay">
-                        <a href="#" class="project-overlay-btn">View Case Study →</a>
-                    </div>
-                </div>
-                <div class="project-info">
-                    <div class="project-type">Telegram Bot</div>
-                    <h3 class="project-title">Content Recommendation Bot</h3>
-                    <p class="project-desc">AI-powered Telegram bot that analyzes user preferences and delivers personalized content recommendations with smart scheduling.</p>
-                    <div class="project-stack">
-                        <span class="badge">Python</span>
-                        <span class="badge">Telegram Bot API</span>
-                        <span class="badge">SQLite</span>
-                        <span class="badge">Cron Jobs</span>
-                    </div>
-                    <div class="project-metrics">
-                        <span class="metric"><strong>1K+</strong> users</span>
-                        <span class="metric"><strong>85%</strong> engagement</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Project 5 -->
-            <div class="project-card stagger">
-                <div class="project-thumb">
-                    <div class="project-thumb-bg thumb-data">
-                        <span class="float-icon">📊</span>
-                    </div>
-                    <div class="project-overlay">
-                        <a href="#" class="project-overlay-btn">View Case Study →</a>
-                    </div>
-                </div>
-                <div class="project-info">
-                    <div class="project-type">Data Extraction Agent</div>
-                    <h3 class="project-title">Intelligent Web Scraper</h3>
-                    <p class="project-desc">AI agent that navigates websites, extracts structured data, validates against schemas, and outputs clean JSON/CSV — handles anti-bot measures automatically.</p>
-                    <div class="project-stack">
-                        <span class="badge">Python</span>
-                        <span class="badge">Playwright</span>
-                        <span class="badge">GPT-4 Vision</span>
-                        <span class="badge">BeautifulSoup</span>
-                    </div>
-                    <div class="project-metrics">
-                        <span class="metric"><strong>10K+</strong> pages/day</span>
-                        <span class="metric"><strong>99%</strong> uptime</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ═══ SKILLS ═══ -->
-<section id="skills" class="section">
-    <div class="container">
-        <div class="section-header reveal">
-            <div class="section-tag">Tech Stack</div>
-            <h2 class="section-title">Skills & Tools</h2>
-            <p class="section-desc">The technologies I use to build AI agents and automation systems.</p>
-        </div>
-
-        <div class="skills-grid">
-            <div class="skill-card stagger">
-                <div class="skill-icon">🧠</div>
-                <h3>LLM & AI</h3>
-                <p>OpenAI GPT-4, Claude, LangChain, RAG pipelines, vector databases, prompt engineering</p>
-            </div>
-            <div class="skill-card stagger">
-                <div class="skill-icon">🐍</div>
-                <h3>Backend</h3>
-                <p>Python, Node.js, FastAPI, REST APIs, WebSocket, SQLite, PostgreSQL</p>
-            </div>
-            <div class="skill-card stagger">
-                <div class="skill-icon">🤖</div>
-                <h3>Bot Development</h3>
-                <p>Telegram Bot API, WhatsApp Business, Discord.js, conversational AI, NLP</p>
-            </div>
-            <div class="skill-card stagger">
-                <div class="skill-icon">⚡</div>
-                <h3>Automation</h3>
-                <p>n8n, Make, webhooks, cron jobs, CI/CD, Docker, systemd service management</p>
-            </div>
-            <div class="skill-card stagger">
-                <div class="skill-icon">☁️</div>
-                <h3>Infrastructure</h3>
-                <p>Linux VPS, Nginx, PM2, GitHub Actions, AWS, Cloudflare, SSL/TLS</p>
-            </div>
-            <div class="skill-card stagger">
-                <div class="skill-icon">⛓️</div>
-                <h3>Web3 & Crypto</h3>
-                <p>Solidity, smart contracts, DeFi protocols, multi-chain wallet operations, on-chain data</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ═══ ABOUT ═══ -->
-<section id="about" class="section">
-    <div class="container">
-        <div class="section-header reveal">
-            <div class="section-tag">About Me</div>
-            <h2 class="section-title">Builder, Not Just Coder</h2>
-        </div>
-        <div class="reveal" style="max-width: 700px;">
-            <p style="font-size: 16px; color: var(--text-muted); margin-bottom: 16px;">
-                I'm Teguh — an AI Agent Developer from Indonesia with 3+ years of freelance experience. 
-                I specialize in turning AI capabilities into real, working products that businesses actually use.
-            </p>
-            <p style="font-size: 16px; color: var(--text-muted); margin-bottom: 16px;">
-                My sweet spot: <strong style="color: var(--text);">Telegram bots + AI integration</strong>, 
-                <strong style="color: var(--text);">workflow automation</strong>, and 
-                <strong style="color: var(--text);">multi-agent systems</strong>. I've shipped 50+ projects 
-                on Fiverr with a 4.95★ rating, and now I'm expanding to Upwork for larger AI engagements.
-            </p>
-            <p style="font-size: 16px; color: var(--text-muted);">
-                When I'm not building agents, I'm running crypto mining operations, managing VPS infrastructure, 
-                and contributing to open-source projects. I believe in shipping fast, iterating faster, 
-                and always delivering more than promised.
-            </p>
-        </div>
-    </div>
-</section>
-
-<!-- ═══ CTA ═══ -->
-<section class="cta-section">
-    <div class="container">
-        <div class="cta-box reveal">
-            <h2>Let's Build Something <span class="gradient-text">Intelligent</span></h2>
-            <p>Need an AI agent, chatbot, or automation system? Let's talk about your project.</p>
-            <div class="cta-actions">
-                <a href="https://www.upwork.com/freelancers/~teguh407" target="_blank" class="btn btn-primary">Hire on Upwork ↗</a>
-                <a href="mailto:variablesan@gmail.com" class="btn btn-outline">Send Email</a>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ═══ FOOTER ═══ -->
-<footer>
-    <div class="container">
-        <span class="footer-text">© 2026 Teguh Sanjaya. Built with AI.</span>
-        <div class="footer-links">
-            <a href="https://github.com/teguh407" target="_blank">GitHub</a>
-            <a href="https://www.upwork.com/freelancers/~teguh407" target="_blank">Upwork</a>
-            <a href="https://fiverr.com/teguh407" target="_blank">Fiverr</a>
-            <a href="mailto:variablesan@gmail.com">Email</a>
-        </div>
-    </div>
-</footer>
-
-<!-- ═══ ANIMATIONS ═══ -->
-<script>
-// Simple scroll reveal with Intersection Observer (no GSAP dependency)
-const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-            observer.unobserve(entry.target);
-        }
-    });
-}, observerOptions);
-
-document.querySelectorAll('.reveal, .stagger').forEach(el => observer.observe(el));
-
-// Hero entrance animation
-setTimeout(() => {
-    document.querySelector('.hero-badge').classList.add('visible');
-    document.querySelector('.hero h1').classList.add('visible');
-    document.querySelector('.hero-sub').classList.add('visible');
-    document.querySelector('.hero-actions').classList.add('visible');
-}, 100);
-
-// Stat counter animation
-const statObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            const el = entry.target;
-            const target = parseInt(el.textContent);
-            const suffix = el.textContent.replace(/[0-9]/g, '');
-            let current = 0;
-            const increment = target / 40;
-            const timer = setInterval(() => {
-                current += increment;
-                if (current >= target) {
-                    current = target;
-                    clearInterval(timer);
-                }
-                el.textContent = Math.round(current) + suffix;
-            }, 30);
-            statObserver.unobserve(el);
-        }
-    });
-}, { threshold: 0.5 });
-
-document.querySelectorAll('.stat-num').forEach(el => statObserver.observe(el));
-</script>
-
-</body>
-</html>
+     1|<!DOCTYPE html>
+     2|<html lang="en" data-theme="dark">
+     3|<head>
+     4|    <meta charset="UTF-8">
+     5|    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     6|    <title>Teguh Sanjaya — AI Agent Developer & Automation Specialist</title>
+     7|    <meta name="description" content="AI Agent Developer specializing in LLM orchestration, workflow automation, and intelligent bot systems. Available for freelance on Upwork.">
+     8|    
+     9|    <!-- Fonts: Space Grotesk (heading) + DM Sans (body) — Tech Startup pairing -->
+    10|    <link rel="preconnect" href="https://fonts.googleapis.com">
+    11|    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    12|    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    13|    
+    14|    15|    
+    16|    <style>
+    17|        /* ═══════════════════════════════════════════════
+    18|           DESIGN SYSTEM — Dark Mode AI Portfolio
+    19|           Primary: #6366F1 (Indigo)
+    20|           Accent: #059669 (Emerald)
+    21|           ═══════════════════════════════════════════════ */
+    22|        :root {
+    23|            --bg: #0B0F1A;
+    24|            --bg-card: #111827;
+    25|            --bg-card-hover: #1A2332;
+    26|            --surface: #1E293B;
+    27|            --border: #1E293B;
+    28|            --border-hover: #334155;
+    29|            --text: #F8FAFC;
+    30|            --text-muted: #94A3B8;
+    31|            --text-dim: #64748B;
+    32|            --primary: #6366F1;
+    33|            --primary-light: #818CF8;
+    34|            --primary-glow: rgba(99, 102, 241, 0.15);
+    35|            --accent: #059669;
+    36|            --accent-light: #10B981;
+    37|            --accent-glow: rgba(5, 150, 105, 0.15);
+    38|            --gradient: linear-gradient(135deg, #6366F1, #8B5CF6, #A78BFA);
+    39|            --gradient-accent: linear-gradient(135deg, #059669, #10B981);
+    40|            --font-heading: 'Space Grotesk', sans-serif;
+    41|            --font-body: 'DM Sans', sans-serif;
+    42|            --radius: 16px;
+    43|            --radius-sm: 10px;
+    44|            --shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+    45|            --shadow-glow: 0 0 40px rgba(99, 102, 241, 0.1);
+    46|        }
+    47|
+    48|        * { margin: 0; padding: 0; box-sizing: border-box; }
+    49|        
+    50|        html { scroll-behavior: smooth; }
+    51|        
+    52|        body {
+    53|            font-family: var(--font-body);
+    54|            background: var(--bg);
+    55|            color: var(--text);
+    56|            line-height: 1.6;
+    57|            overflow-x: hidden;
+    58|        }
+    59|
+    60|        /* ═══ UTILITY ═══ */
+    61|        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    62|        .gradient-text {
+    63|            background: var(--gradient);
+    64|            -webkit-background-clip: text;
+    65|            -webkit-text-fill-color: transparent;
+    66|            background-clip: text;
+    67|        }
+    68|        .badge {
+    69|            display: inline-flex;
+    70|            align-items: center;
+    71|            gap: 6px;
+    72|            padding: 6px 14px;
+    73|            border-radius: 100px;
+    74|            font-size: 13px;
+    75|            font-weight: 500;
+    76|            border: 1px solid var(--border);
+    77|            background: var(--surface);
+    78|            color: var(--text-muted);
+    79|            transition: all 0.3s ease;
+    80|        }
+    81|        .badge:hover { border-color: var(--primary); color: var(--primary-light); }
+    82|        .badge-dot {
+    83|            width: 6px; height: 6px;
+    84|            border-radius: 50%;
+    85|            background: var(--accent);
+    86|            animation: pulse 2s ease-in-out infinite;
+    87|        }
+    88|        @keyframes pulse {
+    89|            0%, 100% { opacity: 1; transform: scale(1); }
+    90|            50% { opacity: 0.5; transform: scale(0.8); }
+    91|        }
+    92|
+    93|        /* ═══ NAV ═══ */
+    94|        nav {
+    95|            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    96|            padding: 16px 0;
+    97|            background: rgba(11, 15, 26, 0.8);
+    98|            backdrop-filter: blur(20px);
+    99|            border-bottom: 1px solid rgba(30, 41, 59, 0.5);
+   100|            transition: all 0.3s ease;
+   101|        }
+   102|        nav .container {
+   103|            display: flex; align-items: center; justify-content: space-between;
+   104|        }
+   105|        .nav-logo {
+   106|            font-family: var(--font-heading);
+   107|            font-size: 20px; font-weight: 700;
+   108|            color: var(--text);
+   109|            text-decoration: none;
+   110|        }
+   111|        .nav-logo span { color: var(--primary); }
+   112|        .nav-links { display: flex; gap: 32px; align-items: center; }
+   113|        .nav-links a {
+   114|            font-size: 14px; font-weight: 500;
+   115|            color: var(--text-muted);
+   116|            text-decoration: none;
+   117|            transition: color 0.3s ease;
+   118|        }
+   119|        .nav-links a:hover { color: var(--text); }
+   120|        .nav-cta {
+   121|            padding: 10px 24px !important;
+   122|            background: var(--primary) !important;
+   123|            color: white !important;
+   124|            border-radius: 100px !important;
+   125|            font-weight: 600 !important;
+   126|            transition: all 0.3s ease !important;
+   127|        }
+   128|        .nav-cta:hover { background: var(--primary-light) !important; transform: translateY(-1px); }
+   129|
+   130|        /* ═══ HERO ═══ */
+   131|        .hero {
+   132|            min-height: 100vh;
+   133|            display: flex; align-items: center;
+   134|            padding: 120px 0 80px;
+   135|            position: relative;
+   136|            overflow: hidden;
+   137|        }
+   138|        .hero::before {
+   139|            content: '';
+   140|            position: absolute; top: -50%; left: -50%;
+   141|            width: 200%; height: 200%;
+   142|            background: radial-gradient(circle at 30% 40%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
+   143|                        radial-gradient(circle at 70% 60%, rgba(5, 150, 105, 0.05) 0%, transparent 50%);
+   144|            animation: heroGlow 15s ease-in-out infinite alternate;
+   145|        }
+   146|        @keyframes heroGlow {
+   147|            0% { transform: translate(0, 0) rotate(0deg); }
+   148|            100% { transform: translate(-5%, 5%) rotate(3deg); }
+   149|        }
+   150|        .hero-content { position: relative; z-index: 2; }
+   151|        .hero-badge {
+   152|            display: inline-flex; align-items: center; gap: 8px;
+   153|            padding: 8px 18px;
+   154|            background: var(--primary-glow);
+   155|            border: 1px solid rgba(99, 102, 241, 0.3);
+   156|            border-radius: 100px;
+   157|            font-size: 13px; font-weight: 500;
+   158|            color: var(--primary-light);
+   159|            margin-bottom: 24px;
+   160|        }
+   161|        .hero h1 {
+   162|            font-family: var(--font-heading);
+   163|            font-size: clamp(42px, 6vw, 72px);
+   164|            font-weight: 700;
+   165|            line-height: 1.1;
+   166|            margin-bottom: 20px;
+   167|        }
+   168|        .hero-sub {
+   169|            font-size: 18px;
+   170|            color: var(--text-muted);
+   171|            max-width: 560px;
+   172|            margin-bottom: 36px;
+   173|        }
+   174|        .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+   175|        .btn {
+   176|            display: inline-flex; align-items: center; gap: 8px;
+   177|            padding: 14px 32px;
+   178|            border-radius: 100px;
+   179|            font-family: var(--font-body);
+   180|            font-size: 15px; font-weight: 600;
+   181|            text-decoration: none;
+   182|            cursor: pointer; border: none;
+   183|            transition: all 0.3s ease;
+   184|        }
+   185|        .btn-primary {
+   186|            background: var(--gradient);
+   187|            color: white;
+   188|            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+   189|        }
+   190|        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(99, 102, 241, 0.4); }
+   191|        .btn-outline {
+   192|            background: transparent;
+   193|            color: var(--text);
+   194|            border: 1px solid var(--border-hover);
+   195|        }
+   196|        .btn-outline:hover { border-color: var(--primary); color: var(--primary-light); }
+   197|
+   198|        /* ═══ STATS ═══ */
+   199|        .stats {
+   200|            display: grid;
+   201|            grid-template-columns: repeat(4, 1fr);
+   202|            gap: 24px;
+   203|            padding: 60px 0;
+   204|        }
+   205|        .stat-card {
+   206|            text-align: center;
+   207|            padding: 28px 20px;
+   208|            background: var(--bg-card);
+   209|            border: 1px solid var(--border);
+   210|            border-radius: var(--radius);
+   211|            transition: all 0.3s ease;
+   212|        }
+   213|        .stat-card:hover { border-color: var(--primary); transform: translateY(-4px); box-shadow: var(--shadow-glow); }
+   214|        .stat-num {
+   215|            font-family: var(--font-heading);
+   216|            font-size: 36px; font-weight: 700;
+   217|            background: var(--gradient);
+   218|            -webkit-background-clip: text;
+   219|            -webkit-text-fill-color: transparent;
+   220|        }
+   221|        .stat-label { font-size: 14px; color: var(--text-muted); margin-top: 4px; }
+   222|
+   223|        /* ═══ SECTION HEADER ═══ */
+   224|        .section { padding: 80px 0; }
+   225|        .section-header { margin-bottom: 48px; }
+   226|        .section-tag {
+   227|            font-size: 13px; font-weight: 600;
+   228|            text-transform: uppercase; letter-spacing: 2px;
+   229|            color: var(--primary-light);
+   230|            margin-bottom: 12px;
+   231|        }
+   232|        .section-title {
+   233|            font-family: var(--font-heading);
+   234|            font-size: clamp(28px, 4vw, 40px);
+   235|            font-weight: 700;
+   236|        }
+   237|        .section-desc {
+   238|            font-size: 16px;
+   239|            color: var(--text-muted);
+   240|            max-width: 600px;
+   241|            margin-top: 12px;
+   242|        }
+   243|
+   244|        /* ═══ PROJECT GRID ═══ */
+   245|        .projects-grid {
+   246|            display: grid;
+   247|            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+   248|            gap: 24px;
+   249|        }
+   250|        .project-card {
+   251|            background: var(--bg-card);
+   252|            border: 1px solid var(--border);
+   253|            border-radius: var(--radius);
+   254|            overflow: hidden;
+   255|            transition: all 0.4s ease;
+   256|            position: relative;
+   257|        }
+   258|        .project-card:hover {
+   259|            border-color: var(--primary);
+   260|            transform: translateY(-6px);
+   261|            box-shadow: var(--shadow-glow);
+   262|        }
+   263|        .project-thumb {
+   264|            position: relative;
+   265|            height: 220px;
+   266|            overflow: hidden;
+   267|        }
+   268|        .project-thumb-bg {
+   269|            width: 100%; height: 100%;
+   270|            display: flex; align-items: center; justify-content: center;
+   271|            font-size: 64px;
+   272|            position: relative;
+   273|        }
+   274|        .project-thumb-bg::after {
+   275|            content: '';
+   276|            position: absolute; inset: 0;
+   277|            background: linear-gradient(to bottom, transparent 60%, var(--bg-card));
+   278|        }
+   279|        .project-overlay {
+   280|            position: absolute; inset: 0;
+   281|            background: rgba(11, 15, 26, 0.85);
+   282|            display: flex; align-items: center; justify-content: center;
+   283|            opacity: 0;
+   284|            transition: opacity 0.3s ease;
+   285|        }
+   286|        .project-card:hover .project-overlay { opacity: 1; }
+   287|        .project-overlay-btn {
+   288|            padding: 10px 24px;
+   289|            background: var(--primary);
+   290|            color: white;
+   291|            border-radius: 100px;
+   292|            font-size: 14px; font-weight: 600;
+   293|            text-decoration: none;
+   294|            transition: all 0.3s ease;
+   295|        }
+   296|        .project-overlay-btn:hover { background: var(--primary-light); }
+   297|        .project-info { padding: 24px; }
+   298|        .project-type {
+   299|            font-size: 12px; font-weight: 600;
+   300|            text-transform: uppercase; letter-spacing: 1.5px;
+   301|            color: var(--accent-light);
+   302|            margin-bottom: 8px;
+   303|        }
+   304|        .project-title {
+   305|            font-family: var(--font-heading);
+   306|            font-size: 20px; font-weight: 600;
+   307|            margin-bottom: 8px;
+   308|        }
+   309|        .project-desc {
+   310|            font-size: 14px;
+   311|            color: var(--text-muted);
+   312|            margin-bottom: 16px;
+   313|            line-height: 1.5;
+   314|        }
+   315|        .project-stack { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+   316|        .project-stack .badge { font-size: 12px; padding: 4px 10px; }
+   317|        .project-metrics {
+   318|            display: flex; gap: 20px;
+   319|            padding-top: 16px;
+   320|            border-top: 1px solid var(--border);
+   321|        }
+   322|        .metric { font-size: 13px; color: var(--text-dim); }
+   323|        .metric strong { color: var(--accent-light); font-weight: 600; }
+   324|
+   325|        /* ═══ SKILLS ═══ */
+   326|        .skills-grid {
+   327|            display: grid;
+   328|            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+   329|            gap: 20px;
+   330|        }
+   331|        .skill-card {
+   332|            padding: 28px;
+   333|            background: var(--bg-card);
+   334|            border: 1px solid var(--border);
+   335|            border-radius: var(--radius);
+   336|            transition: all 0.3s ease;
+   337|        }
+   338|        .skill-card:hover { border-color: var(--primary); }
+   339|        .skill-icon {
+   340|            width: 48px; height: 48px;
+   341|            display: flex; align-items: center; justify-content: center;
+   342|            background: var(--primary-glow);
+   343|            border-radius: 12px;
+   344|            font-size: 24px;
+   345|            margin-bottom: 16px;
+   346|        }
+   347|        .skill-card h3 {
+   348|            font-family: var(--font-heading);
+   349|            font-size: 16px; font-weight: 600;
+   350|            margin-bottom: 8px;
+   351|        }
+   352|        .skill-card p { font-size: 14px; color: var(--text-muted); }
+   353|
+   354|        /* ═══ CTA ═══ */
+   355|        .cta-section {
+   356|            padding: 80px 0;
+   357|            text-align: center;
+   358|        }
+   359|        .cta-box {
+   360|            padding: 64px 40px;
+   361|            background: var(--bg-card);
+   362|            border: 1px solid var(--border);
+   363|            border-radius: 24px;
+   364|            position: relative;
+   365|            overflow: hidden;
+   366|        }
+   367|        .cta-box::before {
+   368|            content: '';
+   369|            position: absolute; inset: 0;
+   370|            background: radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.1) 0%, transparent 60%);
+   371|        }
+   372|        .cta-box h2 {
+   373|            font-family: var(--font-heading);
+   374|            font-size: clamp(24px, 3.5vw, 36px);
+   375|            font-weight: 700;
+   376|            margin-bottom: 16px;
+   377|            position: relative;
+   378|        }
+   379|        .cta-box p {
+   380|            font-size: 16px;
+   381|            color: var(--text-muted);
+   382|            max-width: 500px;
+   383|            margin: 0 auto 32px;
+   384|            position: relative;
+   385|        }
+   386|        .cta-actions { display: flex; gap: 16px; justify-content: center; position: relative; }
+   387|
+   388|        /* ═══ FOOTER ═══ */
+   389|        footer {
+   390|            padding: 40px 0;
+   391|            border-top: 1px solid var(--border);
+   392|        }
+   393|        footer .container {
+   394|            display: flex; align-items: center; justify-content: space-between;
+   395|            flex-wrap: wrap; gap: 16px;
+   396|        }
+   397|        .footer-text { font-size: 14px; color: var(--text-dim); }
+   398|        .footer-links { display: flex; gap: 24px; }
+   399|        .footer-links a {
+   400|            font-size: 14px;
+   401|            color: var(--text-muted);
+   402|            text-decoration: none;
+   403|            transition: color 0.3s ease;
+   404|        }
+   405|        .footer-links a:hover { color: var(--primary-light); }
+   406|
+   407|        /* ═══ RESPONSIVE ═══ */
+   408|        @media (max-width: 768px) {
+   409|            .nav-links { display: none; }
+   410|            .stats { grid-template-columns: repeat(2, 1fr); }
+   411|            .projects-grid { grid-template-columns: 1fr; }
+   412|            .hero h1 { font-size: 36px; }
+   413|            .cta-box { padding: 40px 24px; }
+   414|        }
+   415|
+   416|        /* ═══ ANIMATIONS ═══ */
+   417|        .reveal, .stagger, .hero-badge, .hero h1, .hero-sub, .hero-actions {
+   418|            opacity: 1;
+   419|            transform: translateY(0);
+   420|        }
+   421|
+   422|        /* Project thumbnail themes */
+   423|        .thumb-ai { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); }
+   424|        .thumb-auto { background: linear-gradient(135deg, #0d1117 0%, #161b22 50%, #21262d 100%); }
+   425|        .thumb-bot { background: linear-gradient(135deg, #1a1a2e 0%, #0a3d62 50%, #1e3799 100%); }
+   426|        .thumb-data { background: linear-gradient(135deg, #0d1117 0%, #1a1a2e 50%, #2d1b69 100%); }
+   427|        .thumb-multi { background: linear-gradient(135deg, #1a1a2e 0%, #1b2838 50%, #2a475e 100%); }
+   428|
+   429|        .float-icon {
+   430|            font-size: 48px;
+   431|            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+   432|            animation: float 3s ease-in-out infinite;
+   433|        }
+   434|        @keyframes float {
+   435|            0%, 100% { transform: translateY(0); }
+   436|            50% { transform: translateY(-8px); }
+   437|        }
+   438|    </style>
+   439|</head>
+   440|<body>
+   441|
+   442|<!-- ═══ NAV ═══ -->
+   443|<nav>
+   444|    <div class="container">
+   445|        <a href="#" class="nav-logo">teguh<span>.dev</span></a>
+   446|        <div class="nav-links">
+   447|            <a href="#projects">Projects</a>
+   448|            <a href="#skills">Skills</a>
+   449|            <a href="#about">About</a>
+   450|            <a href="https://www.upwork.com/freelancers/~teguh407" target="_blank" class="nav-cta">Hire Me ↗</a>
+   451|        </div>
+   452|    </div>
+   453|</nav>
+   454|
+   455|<!-- ═══ HERO ═══ -->
+   456|<section class="hero">
+   457|    <div class="container">
+   458|        <div class="hero-content">
+   459|            <div class="hero-badge">
+   460|                <span class="badge-dot"></span>
+   461|                Available for freelance
+   462|            </div>
+   463|            <h1>
+   464|                I build<br>
+   465|                <span class="gradient-text">AI Agents &<br>Automations</span>
+   466|            </h1>
+   467|            <p class="hero-sub">
+   468|                AI Agent Developer specializing in LLM orchestration, workflow automation, 
+   469|                and intelligent bot systems. I turn complex AI into simple, working products.
+   470|            </p>
+   471|            <div class="hero-actions">
+   472|                <a href="#projects" class="btn btn-primary">View Projects ↓</a>
+   473|                <a href="https://www.upwork.com/freelancers/~teguh407" target="_blank" class="btn btn-outline">Upwork Profile ↗</a>
+   474|            </div>
+   475|        </div>
+   476|    </div>
+   477|</section>
+   478|
+   479|<!-- ═══ STATS ═══ -->
+   480|<section class="container">
+   481|    <div class="stats">
+   482|        <div class="stat-card stagger">
+   483|            <div class="stat-num">5+</div>
+   484|            <div class="stat-label">AI Projects Shipped</div>
+   485|        </div>
+   486|        <div class="stat-card stagger">
+   487|            <div class="stat-num">50+</div>
+   488|            <div class="stat-label">Fiverr Reviews</div>
+   489|        </div>
+   490|        <div class="stat-card stagger">
+   491|            <div class="stat-num">3+</div>
+   492|            <div class="stat-label">Years Experience</div>
+   493|        </div>
+   494|        <div class="stat-card stagger">
+   495|            <div class="stat-num">18+</div>
+   496|            <div class="stat-label">Countries Served</div>
+   497|        </div>
+   498|    </div>
+   499|</section>
+   500|
+   501|
